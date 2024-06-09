@@ -1,11 +1,11 @@
-'use client'; // Marca este componente como un componente cliente
+'use client'; // Indica que este es un componente cliente
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Usa la navegación de next/navigation
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useEffect } from 'react';
 
-const IncidenciaForm = ({ initialData }) => {
+const FormIncidencia = ({ initialData }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm({
         defaultValues: initialData,
     });
@@ -22,7 +22,7 @@ const IncidenciaForm = ({ initialData }) => {
     const onSubmit = async (data) => {
         try {
             await axios.put(`/api/incidencias/${initialData.id}`, data);
-            router.push('/incidencias');
+            router.push('/incidencias'); // Redirigir después de la actualización
         } catch (error) {
             console.error('Error updating incidence:', error);
         }
@@ -45,4 +45,4 @@ const IncidenciaForm = ({ initialData }) => {
     );
 };
 
-export default IncidenciaForm;
+export default FormIncidencia;
