@@ -1,23 +1,20 @@
-// app/incidencias/edit/[id]/page.js (Componente de Servidor)
+// app/incidencias/edit/[id]/page.js
 
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import IncidenciaForm from '../../../../components/IncidenciaForm';
 import prisma from '../../../../lib/prisma';
 
-// Función del Componente de Servidor
 const EditarIncidenciaPage = async ({ params }) => {
   const { id } = params;
 
-  // Obtener datos de la incidencia desde la base de datos
+  // Obtener la incidencia desde la base de datos
   const incidencia = await prisma.incidencia.findUnique({
     where: { id: parseInt(id, 10) },
   });
 
-  // Redirigir si la incidencia no existe
+  // Si no se encuentra la incidencia, mostrar la página 404
   if (!incidencia) {
-    notFound(); // Muestra una página 404
-    // O puedes redirigir a otra página si prefieres
-    // redirect('/incidencias');
+    notFound();
   }
 
   return (
