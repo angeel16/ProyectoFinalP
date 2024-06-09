@@ -1,26 +1,26 @@
 // src/app/incidencias/edit/[id]/page.js
+import { prisma } from '@/lib/prisma';
 
-import { notFound } from 'next/navigation';
-import FormIncidencia from '@/components/FormIncidencia'; // Asegúrate de que esta ruta es correcta
-import prisma from '@/lib/prisma'; // Asegúrate de que prisma está correctamente configurado
-
-const EditarIncidenciaPage = async ({ params }) => {
+export default async function EditPage({ params }) {
     const { id } = params;
-
     const incidencia = await prisma.incidencia.findUnique({
         where: { id: parseInt(id, 10) },
     });
 
     if (!incidencia) {
-        notFound();
+        // Manejo del caso donde la incidencia no se encuentra
+        return {
+            notFound: true,
+        };
     }
 
+    // Renderiza la página de edición con la información de incidencia
     return (
         <div>
             <h1>Editar Incidencia</h1>
-            <FormIncidencia initialData={incidencia} />
+            <p>ID: {incidencia.id}</p>
+            <p>Descripción: {incidencia.descripcion}</p>
+            {/* Agrega el formulario o componentes necesarios para editar */}
         </div>
     );
-};
-
-export default EditarIncidenciaPage;
+}
