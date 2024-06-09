@@ -1,12 +1,13 @@
-// components/IncidenciaForm.jsx
+'use client'; // Marca este componente como un componente cliente
 
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const IncidenciaForm = ({ initialData }) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm({
-        defaultValues: initialData
+        defaultValues: initialData,
     });
     const router = useRouter();
 
@@ -39,7 +40,6 @@ const IncidenciaForm = ({ initialData }) => {
                 <textarea {...register('descripcion', { required: true })}></textarea>
                 {errors.descripcion && <span>Este campo es obligatorio</span>}
             </div>
-            {/* Otros campos que puedas tener */}
             <button type="submit">Guardar</button>
         </form>
     );
