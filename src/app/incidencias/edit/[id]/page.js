@@ -1,19 +1,23 @@
-// app/incidencias/[id]/page.jsx (componente de servidor en Next.js 13+)
+// app/incidencias/edit/[id]/page.js (Componente de Servidor)
 
-// Usaremos `getServerSideProps` en lugar de `useRouter` para obtener los datos en el servidor
-import { notFound } from 'next/navigation';
-import IncidenciaForm from '../../../components/IncidenciaForm';
-import prisma from '../../../lib/prisma';
+import { notFound, redirect } from 'next/navigation';
+import IncidenciaForm from '../../../../components/IncidenciaForm';
+import prisma from '../../../../lib/prisma';
 
+// Función del Componente de Servidor
 const EditarIncidenciaPage = async ({ params }) => {
   const { id } = params;
 
+  // Obtener datos de la incidencia desde la base de datos
   const incidencia = await prisma.incidencia.findUnique({
     where: { id: parseInt(id, 10) },
   });
 
+  // Redirigir si la incidencia no existe
   if (!incidencia) {
-    notFound();
+    notFound(); // Muestra una página 404
+    // O puedes redirigir a otra página si prefieres
+    // redirect('/incidencias');
   }
 
   return (
