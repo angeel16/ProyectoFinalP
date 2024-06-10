@@ -376,3 +376,21 @@ export async function deleteIncidencia(formData) {
 //     redirect('/tecnicos');
 // }
 
+export async function getUsers() {
+    return await prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+        },
+    });
+}
+
+// Actualizar rol de usuario
+export async function updateUserRole(userId, newRole) {
+    return await prisma.user.update({
+        where: { id: userId },
+        data: { role: newRole },
+    });
+}

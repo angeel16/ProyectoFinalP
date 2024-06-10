@@ -6,21 +6,25 @@ export default function PerfilPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [id, setId] = useState(''); // Asegúrate de manejar el ID correctamente
+    const [id, setId] = useState('');
+    const [notification, setNotification] = useState(null);
 
     useEffect(() => {
-        // Simulación de carga de datos del perfil
         const fetchPerfil = async () => {
-            // Aquí podrías obtener el perfil del usuario actual
-            const perfil = {
-                id: '1', // Asegúrate de tener el ID correcto
-                name: 'Juan Pérez',
-                email: 'juan.perez@example.com',
-            };
+            try {
+                // Simulación de carga de datos del perfil
+                const perfil = {
+                    id: '1',
+                    name: 'Angel',
+                    email: 'Angelborrego@gmail.com',
+                };
 
-            setId(perfil.id); // Setea el ID correctamente
-            setName(perfil.name);
-            setEmail(perfil.email);
+                setId(perfil.id);
+                setName(perfil.name);
+                setEmail(perfil.email);
+            } catch (error) {
+                console.error('Error al cargar el perfil:', error);
+            }
         };
 
         fetchPerfil();
@@ -29,9 +33,9 @@ export default function PerfilPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const perfilData = { id, name, email, password }; // Asegúrate de incluir el ID correcto
+        const perfilData = { id, name, email, password };
 
-        console.log('Enviando datos de perfil:', perfilData); // Verifica los datos que se están enviando
+        console.log('Enviando datos de perfil:', perfilData);
 
         try {
             const res = await fetch('/api/perfil', {
@@ -50,49 +54,54 @@ export default function PerfilPage() {
 
             const result = await res.json();
             console.log('Perfil actualizado con éxito:', result);
-            alert('Perfil actualizado con éxito');
+            showNotification('Perfil actualizado con éxito', 'success');
             setPassword('');
         } catch (error) {
             console.error('Error al actualizar el perfil:', error.message);
-            alert(`Hubo un error al actualizar el perfil: ${error.message}`);
+            showNotification(`Hubo un error al actualizar el perfil: ${error.message}`, 'error');
         }
     };
 
+    const showNotification = (message, type) => {
+        setNotification({ message, type });
+        setTimeout(() => setNotification(null), 3000);
+    };
+
     return (
-        <div className="min-h-screen flex flex-col items-center justify-start bg-cover bg-center pt-20" style={{ backgroundImage: "url('/frutas-y-frutos-secos.jpg')" }}>
-            <div className="max-w-4xl w-full p-8 bg-white rounded-lg shadow-md mt-2">
+        <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-indigo-600 to-green-500 pt-20 text-white">
+            <div className="max-w-4xl w-full p-8 bg-white bg-opacity-90 rounded-lg shadow-md mt-2 text-gray-900">
                 <h1 className="text-4xl font-bold mb-4 text-center">Configuración de Perfil</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="flex flex-col">
-                        <label className="text-lg font-semibold text-gray-700">Nombre</label>
+                        <label className="text-lg font-semibold text-gray-800">Nombre</label>
                         <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Tu nombre"
-                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                            className="mt-1 p-2 border border-gray-300 rounded-md text-gray-900"
                             required
                         />
                     </div>
                     <div className="flex flex-col">
-                        <label className="text-lg font-semibold text-gray-700">Correo Electrónico</label>
+                        <label className="text-lg font-semibold text-gray-800">Correo Electrónico</label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Tu correo electrónico"
-                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                            className="mt-1 p-2 border border-gray-300 rounded-md text-gray-900"
                             required
                         />
                     </div>
                     <div className="flex flex-col">
-                        <label className="text-lg font-semibold text-gray-700">Contraseña</label>
+                        <label className="text-lg font-semibold text-gray-800">Contraseña</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Nueva contraseña"
-                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                            className="mt-1 p-2 border border-gray-300 rounded-md text-gray-900"
                         />
                     </div>
                     <div className="flex justify-center">
@@ -102,6 +111,12 @@ export default function PerfilPage() {
                     </div>
                 </form>
             </div>
+
+            {notification && (
+                <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 p-4 rounded-lg shadow-lg text-white transition-transform duration-300 ${notification.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+                    {notification.message}
+                </div>
+            )}
         </div>
     );
 }

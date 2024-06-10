@@ -21,16 +21,14 @@ function page({ searchParams }) {
   // La usaremos en los actions de login
   globalThis.callbackUrl = decodeURIComponent(callbackUrl ?? '%2Fdashboard')
 
+
   return (
-    <>
-      {error && <h3>{errors.get(error)}</h3>}
-      <div className="form mt-14">
-        <h1 className="mt-14 text-center text-3xl font-bold text-gray-800">Iniciar sesión</h1>
-        <LoginForm error={error} />
-        <OAuthForm error={error} />
-      </div>
-    </>
-  )
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-600 to-green-500 text-white p-4">
+      <LoginForm />
+      <OAuthForm />
+    </div>
+  );
 }
+
 
 export default page

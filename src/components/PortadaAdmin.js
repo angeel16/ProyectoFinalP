@@ -41,6 +41,15 @@ export default function PortadaAdmin() {
                                     <p className="mt-2 text-gray-600">Genera reportes detallados para un análisis profundo.</p>
                                 </div>
                             </Link>
+                            <Link href="/user">
+                                <div className="flex flex-col items-center cursor-pointer">
+                                    <div className="text-7xl bg-blue-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
+                                        🛠️
+                                    </div>
+                                    <h3 className="mt-4 text-2xl font-bold text-gray-800">Roles de Usuario</h3>
+                                    <p className="mt-2 text-gray-600">Modifica roles de usuario para gestionar permisos.</p>
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
