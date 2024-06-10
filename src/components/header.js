@@ -6,49 +6,50 @@ async function Header() {
     const session = await auth();
 
     return (
-        <nav className="bg-gradient-to-r from-blue-200 to-blue-500">
+        <nav className="bg-gray-800 shadow-lg transform transition-transform duration-500 ease-in-out translate-y-[-100%] opacity-0 header-animate">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
                     <div className="flex items-center flex-shrink-0">
-                        <Link href="/" className="ml-12 text-white hover:text-gray-300">
+                        <Link href="/" className="ml-12 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
                             Inicio
                         </Link>
-
-                        <Link href="/dashboard" className="ml-10 text-white hover:text-gray-300">
+                        <Link href="/dashboard" className="ml-10 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
                             Dashboard
                         </Link>
-
                         {session?.user?.role === 'ADMIN' && (
                             <>
-                                <Link legacyBehavior href="/admin">
-                                    <a className="ml-4 text-white hover:text-gray-300">Admin Panel</a>
+                                <Link href="/admin" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
+                                    Admin Panel
                                 </Link>
-                                <Link legacyBehavior href="/admin/users">
-                                    <a className="ml-4 text-white hover:text-gray-300">Gestionar Incidencias</a>
+                                <Link href="/admin/users" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
+                                    Gestionar Incidencias
                                 </Link>
-                                <Link legacyBehavior href="/admin/settings">
-                                    <a className="ml-4 text-white hover:text-gray-300">Configuraciones</a>
+                                <Link href="/admin/settings" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
+                                    Configuraciones
                                 </Link>
-                                <Link legacyBehavior href="/">
-                                    <a className="ml-4 text-white hover:text-gray-300">Ver Reportes</a>
+                                <Link href="/" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
+                                    Ver Reportes
                                 </Link>
                             </>
                         )}
                     </div>
-
                     <div className="flex items-center space-x-4">
                         {session ? (
                             <form>
-                                <button type="submit" className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" formAction={logout}>
+                                <button
+                                    type="submit"
+                                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition duration-300 ease-in-out transform active:scale-95"
+                                    formAction={logout}
+                                >
                                     Cerrar Sesión
                                 </button>
                             </form>
                         ) : (
                             <div className="flex">
-                                <Link href="/auth/register" className="text-white hover:text-gray-300">
+                                <Link href="/auth/register" className="text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
                                     Registrarse
                                 </Link>
-                                <Link href="/auth/login" className="ml-4 text-white hover:text-gray-300">
+                                <Link href="/auth/login" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
                                     Iniciar Sesión
                                 </Link>
                             </div>
@@ -57,7 +58,7 @@ async function Header() {
                 </div>
             </div>
         </nav>
-    )
+    );
 }
 
 export default Header;

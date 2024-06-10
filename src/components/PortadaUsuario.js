@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 export default function PortadaUsuario() {
     return (
+
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-600 to-green-500 text-white">
             <main className="flex flex-col items-center text-center px-4 sm:px-6 lg:px-8">
                 <h1 className="text-6xl font-extrabold mb-6 drop-shadow-lg">

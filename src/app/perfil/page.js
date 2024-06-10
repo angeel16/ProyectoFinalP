@@ -1,23 +1,25 @@
-// src/app/perfil/page.js
 "use client";
 
 import { useState, useEffect } from 'react';
 
 export default function PerfilPage() {
-    const [nombre, setNombre] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [id, setId] = useState(''); // Asegúrate de manejar el ID correctamente
 
     useEffect(() => {
-        // Simulación de carga de datos del perfil, reemplaza esto con tu lógica real para obtener el perfil
+        // Simulación de carga de datos del perfil
         const fetchPerfil = async () => {
+            // Aquí podrías obtener el perfil del usuario actual
             const perfil = {
-                nombre: 'Juan Pérez',
+                id: '1', // Asegúrate de tener el ID correcto
+                name: 'Juan Pérez',
                 email: 'juan.perez@example.com',
             };
 
-            console.log('Perfil cargado:', perfil);
-            setNombre(perfil.nombre);
+            setId(perfil.id); // Setea el ID correctamente
+            setName(perfil.name);
             setEmail(perfil.email);
         };
 
@@ -27,9 +29,9 @@ export default function PerfilPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const perfilData = { id: 1, nombre, email, password };
+        const perfilData = { id, name, email, password }; // Asegúrate de incluir el ID correcto
 
-        console.log('Enviando datos de perfil:', perfilData);
+        console.log('Enviando datos de perfil:', perfilData); // Verifica los datos que se están enviando
 
         try {
             const res = await fetch('/api/perfil', {
@@ -65,8 +67,8 @@ export default function PerfilPage() {
                         <label className="text-lg font-semibold text-gray-700">Nombre</label>
                         <input
                             type="text"
-                            value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             placeholder="Tu nombre"
                             className="mt-1 p-2 border border-gray-300 rounded-md"
                             required

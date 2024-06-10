@@ -36,35 +36,24 @@ export async function register(formData) {
 }
 
 
+// Convert an object to FormData
+function objectToFormData(obj) {
+    const formData = new FormData();
+    Object.keys(obj).forEach(key => formData.append(key, obj[key]));
+    return formData;
+}
 
 // LOGIN credentials
 export async function login(formData) {
-    const email = formData.get('email')
-    const password = formData.get('password')
+    if (!(formData instanceof FormData)) {
+        formData = objectToFormData(formData);
+    }
+    const email = formData.get('email');
+    const password = formData.get('password');
 
     // Comprobamos si el usuario está registrado
-    const user = await getUserByEmail(email);
-
-    if (!user) {
-        return { error: 'Usuario no registrado.' }
-    }
-
-    // Comparamos password 
-    const matchPassword = await bcrypt.compare(password, user.password)
-
-    if (user && matchPassword) {  // && user.emailVerified
-        await signIn('credentials',
-            {
-                email, password,
-                redirectTo: globalThis.callbackUrl
-                // redirectTo: user.role == 'ADMIN' ? '/admin' : '/dashboard'
-            })
-        return { success: "Inicio de sesión correcto" }
-    } else {
-        return { error: 'Credenciales incorrectas.' }
-    }
-
 }
+
 
 // LOGIN google
 export async function loginGoogle() {

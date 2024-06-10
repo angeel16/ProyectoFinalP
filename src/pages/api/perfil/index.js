@@ -5,28 +5,26 @@ export default async function handler(req, res) {
     if (req.method === 'PUT') {
         const { id, name, email, password } = req.body;
 
-        console.log('Datos recibidos en la API:', { id, name, email, password }); // Log
-
         try {
+            // Verifica si el usuario existe
             const userExistente = await prisma.user.findUnique({
                 where: { id: String(id) }, // Convertir ID a String
             });
 
             if (!userExistente) {
-                console.log('Usuario no encontrado:', id); // Log
                 return res.status(404).json({ error: 'Usuario no encontrado' });
             }
 
+            // Realiza la actualización si el usuario existe
             const userActualizado = await prisma.user.update({
                 where: { id: String(id) },
                 data: {
                     name,
                     email,
-                    ...(password && { password }),
+                    ...(password && { password }), // Solo actualizar la contraseña si se proporciona
                 },
             });
 
-            console.log('Usuario actualizado:', userActualizado); // Log
             res.status(200).json(userActualizado);
         } catch (error) {
             console.error('Error al actualizar el perfil:', error.message);
