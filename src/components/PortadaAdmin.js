@@ -14,7 +14,7 @@ export default function PortadaAdmin() {
                     <div className="absolute inset-0 transform -skew-y-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg shadow-xl"></div>
                     <div className="relative bg-white rounded-lg shadow-xl p-8">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                            <Link href="/alerts" passHref>
+                            <Link href="/alerts">
                                 <div className="flex flex-col items-center cursor-pointer">
                                     <div className="text-7xl bg-yellow-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
                                         ⚠️
@@ -23,16 +23,16 @@ export default function PortadaAdmin() {
                                     <p className="mt-2 text-gray-600">Monitorea y gestiona alertas críticas de manera eficiente.</p>
                                 </div>
                             </Link>
-                            <Link href="/settings" passHref>
+                            <Link href="/incidencias/list" passHref>
                                 <div className="flex flex-col items-center cursor-pointer">
                                     <div className="text-7xl bg-red-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
                                         ⚙️
                                     </div>
                                     <h3 className="mt-4 text-2xl font-bold text-gray-800">Configuración</h3>
-                                    <p className="mt-2 text-gray-600">Personaliza el sistema según las necesidades de tu organización.</p>
+                                    <p className="mt-2 text-gray-600">Gestiona todas las incidencias y personaliza el sistema.</p>
                                 </div>
                             </Link>
-                            <Link href="/reports" passHref>
+                            <Link href="/reports">
                                 <div className="flex flex-col items-center cursor-pointer">
                                     <div className="text-7xl bg-green-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
                                         📊

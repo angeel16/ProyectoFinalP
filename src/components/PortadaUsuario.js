@@ -32,6 +32,24 @@ export default function PortadaUsuario() {
                                     <p className="mt-2 text-gray-600">Informa de nuevas incidencias para que sean gestionadas.</p>
                                 </a>
                             </Link>
+                            <Link legacyBehavior href="/dashboard">
+                                <a className="flex flex-col items-center">
+                                    <div className="text-7xl bg-green-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
+                                        📊
+                                    </div>
+                                    <h3 className="mt-4 text-2xl font-bold text-gray-800">Dashboard</h3>
+                                    <p className="mt-2 text-gray-600">Resumen de las incidencias y estadísticas.</p>
+                                </a>
+                            </Link>
+                            <Link legacyBehavior href="/perfil">
+                                <a className="flex flex-col items-center">
+                                    <div className="text-7xl bg-teal-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
+                                        ⚙️
+                                    </div>
+                                    <h3 className="mt-4 text-2xl font-bold text-gray-800">Configuración</h3>
+                                    <p className="mt-2 text-gray-600">Administra tus ajustes de perfil y preferencias.</p>
+                                </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

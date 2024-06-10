@@ -46,13 +46,19 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+enum Estado {
+  PENDIENTE
+  EN_PROGRESO
+  RESUELTO
+  CERRADO
+}
+
 model Incidencia {
   id          Int      @id @default(autoincrement())
+  descripcion String
   titulo      String
-  descripcion String?
+  estado      Estado
+  // Otros campos
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  estado      String   @default("pendiente") // Estado predeterminado
-
-  @@map("incidencias")
 }

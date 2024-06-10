@@ -1,41 +1,33 @@
-import Form from "@/components/FormIncidenciaAdmin";
-import Button from "@/components/Button";
-import { prisma } from '@/lib/prisma';
-import { editIncidencia, editIncidenciaAdmin } from "@/lib/actions";
+// src/app/incidencias/newAdmin/page.js
+import Link from 'next/link';
+import Incidencia from '@/components/Incidencia';
+import { getIncidencias } from '@/lib/actions';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Page({ searchParams }) {
-  const { id } = searchParams;
-
-  // Verifica si el id está presente y es un número válido
-  if (!id || isNaN(Number(id))) {
-    return (
-      <div style={{ minHeight: "93vh", backgroundImage: "url('/frutas-y-frutos-secos.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
-        <h3 className="text-3xl font-bold text-center">Invalid ID</h3>
-      </div>
-    );
-  }
-
-  const incidencia = await prisma.incidencia.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  // Maneja el caso donde la incidencia no se encuentra
-  if (!incidencia) {
-    return (
-      <div style={{ minHeight: "93vh", backgroundImage: "url('/frutas-y-frutos-secos.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
-        <h3 className="text-3xl font-bold text-center">Incidencia not found</h3>
-      </div>
-    );
-  }
+export default async function Home() {
+  const incidencias = await getIncidencias();
 
   return (
-    <div style={{ minHeight: "93vh", backgroundImage: "url('/frutas-y-frutos-secos.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
-      <h3 className="text-3xl font-bold text-center">Editar incidencia {id}</h3>
-      <Form action={editIncidenciaAdmin} title='Editar incidencia' incidencia={incidencia} />
+    <div className="flex flex-col items-center justify-center py-2" style={{ minHeight: "93vh", backgroundImage: "url('/frutas-y-frutos-secos.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}>
+      <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-md mt-2">
+        <h1 className="text-3xl font-bold mb-4 text-center mt-2">Incidencias</h1>
+        <Link legacyBehavior href="/incidencias/new">
+          <a className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md block text-center mb-2">Nueva incidencia</a>
+        </Link>
+        {incidencias.map((incidencia) => (
+          <Incidencia key={incidencia.id} incidencia={incidencia}>
+            <div className="flex justify-between">
+              <Link legacyBehavior href={`/incidencias/edit/${incidencia.id}`}>
+                <a className="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2 mr-2">Editar incidencia</a>
+              </Link>
+              <Link legacyBehavior href={`/incidencias/delete/${incidencia.id}`}>
+                <a className="bg-red-500 hover:bg-red-600 text-white rounded-md px-4 py-2">Eliminar incidencia</a>
+              </Link>
+            </div>
+          </Incidencia>
+        ))}
+      </div>
     </div>
   );
 }

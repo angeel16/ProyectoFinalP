@@ -1,69 +1,67 @@
-// src/components/EditFormIncidencia.js
-import Button from "@/components/Button";
+// src/components/FormIncidenciaAdmin.js
+"use client";
 
-function EditFormIncidencia({ children, action, incidencia, disabled = false }) {
+import React, { useState } from 'react';
+
+function FormIncidenciaAdmin({ action, incidencia }) {
+    const [titulo, setTitulo] = useState(incidencia?.titulo || '');
+    const [descripcion, setDescripcion] = useState(incidencia?.descripcion || '');
+    const [estado, setEstado] = useState(incidencia?.estado || 'PENDIENTE');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await action({ titulo, descripcion, estado });
+            alert('Incidencia actualizada con éxito');
+        } catch (error) {
+            console.error('Error al actualizar la incidencia:', error);
+            alert('Hubo un error al actualizar la incidencia');
+        }
+    };
+
     return (
-        <form
-            action={action}
-            className="max-w-lg mx-auto mt-8 p-6 bg-white bg-opacity-90 rounded-lg shadow-xl border border-gray-300 backdrop-blur-md"
-            style={{
-                background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
-                boxShadow: '10px 10px 20px #cbcbcb, -10px -10px 20px #ffffff',
-            }}
-        >
-            <input type="hidden" name="id" value={incidencia?.id} />
-            <fieldset disabled={disabled}>
-                <div className="mb-6">
-                    <label htmlFor="titulo" className="block text-sm font-medium text-gray-800 mb-2">
-                        Título
-                    </label>
-                    <input
-                        type="text"
-                        id="titulo"
-                        name="titulo"
-                        className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Título"
-                        defaultValue={incidencia?.titulo}
-                        autoFocus
-                        required
-                    />
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="descripcion" className="block text-sm font-medium text-gray-800 mb-2">
-                        Descripción
-                    </label>
-                    <textarea
-                        id="descripcion"
-                        name="descripcion"
-                        className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Descripción"
-                        defaultValue={incidencia?.descripcion}
-                        rows="4"
-                    />
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="estado" className="block text-sm font-medium text-gray-800 mb-2">
-                        Estado
-                    </label>
-                    <select
-                        id="estado"
-                        name="estado"
-                        className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        defaultValue={incidencia?.estado}
-                        required
-                    >
-                        <option value="abierto">Abierto</option>
-                        <option value="en_progreso">En Progreso</option>
-                        <option value="cerrado">Cerrado</option>
-                    </select>
-                </div>
-                <div className="text-center mt-6">
-                    {children && <div className="mb-4">{children}</div>}
-                    <Button title="Guardar Cambios" />
-                </div>
-            </fieldset>
+        <form onSubmit={handleSubmit} className="w-full max-w-md">
+            <label className="block mb-2 text-sm font-bold text-gray-700">
+                Título
+                <input
+                    type="text"
+                    value={titulo}
+                    onChange={(e) => setTitulo(e.target.value)}
+                    required
+                    className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
+                />
+            </label>
+            <label className="block mb-2 text-sm font-bold text-gray-700">
+                Descripción
+                <textarea
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    required
+                    className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
+                />
+            </label>
+            <label className="block mb-2 text-sm font-bold text-gray-700">
+                Estado
+                <select
+                    value={estado}
+                    onChange={(e) => setEstado(e.target.value)}
+                    required
+                    className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
+                >
+                    <option value="PENDIENTE">Pendiente</option>
+                    <option value="EN_PROGRESO">En Progreso</option>
+                    <option value="RESUELTO">Resuelto</option>
+                    <option value="CERRADO">Cerrado</option>
+                </select>
+            </label>
+            <button
+                type="submit"
+                className="mt-4 p-2 bg-blue-600 text-white rounded-md shadow-lg"
+            >
+                Guardar
+            </button>
         </form>
     );
 }
 
-export default EditFormIncidencia;
+export default FormIncidenciaAdmin;

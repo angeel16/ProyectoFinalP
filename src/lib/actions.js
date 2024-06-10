@@ -102,7 +102,6 @@ export async function loginSpotify() {
     }
 }
 
-
 // LOGOUT
 export async function logout() {
     try {
@@ -124,10 +123,11 @@ export async function logout() {
 
 export async function getIncidencias() {
     try {
-        const incidencias = await prisma.incidencia.findMany()
+        const incidencias = await prisma.incidencia.findMany();
         return incidencias;
     } catch (error) {
-        return null;
+        console.error('Error al obtener incidencias:', error);
+        throw new Error('No se pudieron obtener las incidencias');
     }
 }
 
@@ -147,11 +147,10 @@ export async function getIncidencias() {
 //         return null;
 //     }
 // }
-
 export async function getIncidenciaById(id) {
     try {
         const incidencia = await prisma.incidencia.findUnique({
-            where: { id: Number(id) },
+            where: { id: Number(id) }, // Asegúrate de convertir el ID a número
         });
         return incidencia;
     } catch (error) {
@@ -167,7 +166,6 @@ export async function updateIncidencia(incidencia) {
             data: {
                 titulo: incidencia.titulo,
                 descripcion: incidencia.descripcion,
-                estado: incidencia.estado,
             },
         });
         return updatedIncidencia;
@@ -176,39 +174,40 @@ export async function updateIncidencia(incidencia) {
         return null;
     }
 }
-
-export async function newIncidencia(formData) {
+export async function newIncidencia(data) {
     try {
-        const idString = formData.get('id');
-        const id = idString ? parseInt(idString, 10) : null;
-        const titulo = formData.get('titulo');
-        const descripcion = formData.get('descripcion');
-
-        if (idString && isNaN(id)) {
-            throw new Error('Invalid id: id must be an integer.');
-        }
-
-        const incidenciaData = {
-            titulo,
-            descripcion,
-        };
-
-        if (id !== null) {
-            incidenciaData.id = id;
-        }
-
-        // Create the incidencia without tecnicos
-        const incidencia = await prisma.incidencia.create({
-            data: incidenciaData,
+        const newInc = await prisma.incidencia.create({
+            data: {
+                titulo: data.titulo,
+                descripcion: data.descripcion,
+                estado: 'PENDIENTE',
+            },
         });
-
-        console.log(incidencia);
-        revalidatePath('/');
+        return newInc;
     } catch (error) {
-        console.error('Error creating incidencia:', error);
+        console.error('Error al crear la incidencia:', error);
+        throw new Error('No se pudo crear la incidencia');
     }
-    redirect('/');
 }
+
+// Actualizar una incidencia existente
+export async function editIncidencia(id, data) {
+    try {
+        const updatedInc = await prisma.incidencia.update({
+            where: { id: parseInt(id, 10) },
+            data: {
+                titulo: data.titulo,
+                descripcion: data.descripcion,
+                estado: data.estado,
+            },
+        });
+        return updatedInc;
+    } catch (error) {
+        console.error('Error al actualizar la incidencia:', error);
+        throw new Error('No se pudo actualizar la incidencia');
+    }
+}
+
 
 // export async function newIncidenciaAdmin(formData) {
 //     try {
@@ -244,44 +243,30 @@ export async function newIncidencia(formData) {
 //     }
 //     redirect('/');
 // }
-
-
-export async function editIncidencia(formData) {
-    const idString = formData.get('id');
-    const id = idString ? parseInt(idString, 10) : null;
-    const titulo = formData.get('titulo');
-    const descripcion = formData.get('descripcion');
-
-    if (isNaN(id)) {
-        console.error('Invalid id: id must be an integer.');
-        return redirect('/incidencias');
-    }
-
-    try {
-        const incidencia = await prisma.incidencia.update({
-            where: { id },
-            data: {
-                titulo,
-                descripcion,
-            }
-        });
-
-        console.log(incidencia);
-        revalidatePath('/incidencias');
-    } catch (error) {
-        console.error('Error updating incidencia:', error);
-    }
-
-    redirect('/incidencias');
-}
-export async function editIncidenciaAdmin(data) {
-    const { id, titulo, descripcion, estado } = data;
-    const updatedIncidencia = await prisma.incidencia.update({
-        where: { id: Number(id) },
-        data: { titulo, descripcion, estado },
-    });
-    return updatedIncidencia;
-}
+// export async function editIncidencia(id, data) {
+//     try {
+//         const updatedInc = await prisma.incidencia.update({
+//             where: { id: parseInt(id, 10) }, // Asegúrate de convertir `id` a número
+//             data: {
+//                 descripcion: data.descripcion,
+//                 titulo: data.titulo,
+//                 estado: data.estado, // Asegúrate de incluir `estado`
+//             },
+//         });
+//         return updatedInc;
+//     } catch (error) {
+//         console.error('Error al actualizar la incidencia:', error);
+//         throw new Error('No se pudo actualizar la incidencia');
+//     }
+// }
+// export async function editIncidenciaAdmin(data) {
+//     const { id, titulo, descripcion, estado } = data;
+//     const updatedIncidencia = await prisma.incidencia.update({
+//         where: { id: Number(id) },
+//         data: { titulo, descripcion, estado },
+//     });
+//     return updatedIncidencia;
+// }
 
 export async function deleteIncidencia(formData) {
     try {
