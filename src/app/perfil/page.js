@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Asegúrate de que esta línea esté al inicio del archivo
 
 import { useState, useEffect } from 'react';
 
@@ -6,25 +6,20 @@ export default function PerfilPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [id, setId] = useState('');
+    const [id, setId] = useState('1');
     const [notification, setNotification] = useState(null);
 
     useEffect(() => {
         const fetchPerfil = async () => {
-            try {
-                // Simulación de carga de datos del perfil
-                const perfil = {
-                    id: '1',
-                    name: 'Angel',
-                    email: 'Angelborrego@gmail.com',
-                };
+            const perfil = {
+                id: '1',
+                name: 'Angel',
+                email: 'Angelborrego@gmail.com',
+            };
 
-                setId(perfil.id);
-                setName(perfil.name);
-                setEmail(perfil.email);
-            } catch (error) {
-                console.error('Error al cargar el perfil:', error);
-            }
+            setId(perfil.id);
+            setName(perfil.name);
+            setEmail(perfil.email);
         };
 
         fetchPerfil();
@@ -32,10 +27,7 @@ export default function PerfilPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const perfilData = { id, name, email, password };
-
-        console.log('Enviando datos de perfil:', perfilData);
 
         try {
             const res = await fetch('/api/perfil', {
@@ -47,17 +39,13 @@ export default function PerfilPage() {
             });
 
             if (!res.ok) {
-                const errorText = await res.text();
-                console.error('Error de respuesta:', errorText);
                 throw new Error('Error al guardar los cambios');
             }
 
             const result = await res.json();
-            console.log('Perfil actualizado con éxito:', result);
             showNotification('Perfil actualizado con éxito', 'success');
             setPassword('');
         } catch (error) {
-            console.error('Error al actualizar el perfil:', error.message);
             showNotification(`Hubo un error al actualizar el perfil: ${error.message}`, 'error');
         }
     };

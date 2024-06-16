@@ -15,15 +15,6 @@ export default function PortadaUsuario() {
                     <div className="absolute inset-0 transform -skew-y-6 bg-gradient-to-r from-yellow-400 to-red-500 rounded-lg shadow-xl"></div>
                     <div className="relative bg-white rounded-lg shadow-xl p-8">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8">
-                            <Link legacyBehavior href="/incidencias/view">
-                                <a className="flex flex-col items-center">
-                                    <div className="text-7xl bg-blue-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
-                                        🔍
-                                    </div>
-                                    <h3 className="mt-4 text-2xl font-bold text-gray-800">Ver Incidencias</h3>
-                                    <p className="mt-2 text-gray-600">Consulta y sigue el estado de tus incidencias reportadas.</p>
-                                </a>
-                            </Link>
                             <Link legacyBehavior href="/incidencias/new">
                                 <a className="flex flex-col items-center">
                                     <div className="text-7xl bg-purple-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
@@ -33,6 +24,16 @@ export default function PortadaUsuario() {
                                     <p className="mt-2 text-gray-600">Informa de nuevas incidencias para que sean gestionadas.</p>
                                 </a>
                             </Link>
+                            <Link legacyBehavior href="/incidencias/view">
+                                <a className="flex flex-col items-center">
+                                    <div className="text-7xl bg-blue-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">
+                                        🔍
+                                    </div>
+                                    <h3 className="mt-4 text-2xl font-bold text-gray-800">Ver Incidencias</h3>
+                                    <p className="mt-2 text-gray-600">Consulta y sigue el estado de tus incidencias reportadas.</p>
+                                </a>
+                            </Link>
+
                             <Link legacyBehavior href="/dashboard">
                                 <a className="flex flex-col items-center">
                                     <div className="text-7xl bg-green-500 rounded-full p-6 shadow-lg transform transition duration-300 hover:scale-110">

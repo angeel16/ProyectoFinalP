@@ -1,4 +1,3 @@
-// src/app/incidencias/edit/[id]/page.js
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -17,6 +16,7 @@ export default function EditPage({ params }) {
     const { id } = params; // `params.id` contiene el ID de la incidencia
     const [incidencia, setIncidencia] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         async function loadIncidencia() {
@@ -24,7 +24,7 @@ export default function EditPage({ params }) {
                 const data = await fetchIncidencia(id);
                 setIncidencia(data);
             } catch (error) {
-                console.error('Error al cargar la incidencia:', error);
+                setError(error.message);
             } finally {
                 setLoading(false);
             }
@@ -32,8 +32,21 @@ export default function EditPage({ params }) {
         loadIncidencia();
     }, [id]);
 
+    const handleSave = async (data) => {
+        try {
+            await editIncidencia(id, data);
+        } catch (error) {
+            alert('Error al actualizar la incidencia');
+            console.error(error);
+        }
+    };
+
     if (loading) {
         return <p>Cargando...</p>;
+    }
+
+    if (error) {
+        return <p>Error: {error}</p>;
     }
 
     if (!incidencia) {
@@ -41,11 +54,9 @@ export default function EditPage({ params }) {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-start bg-cover bg-center pt-20" style={{ backgroundImage: "url('/frutas-y-frutos-secos.jpg')" }}>
-            <h3 className="text-4xl font-bold text-blue-900 mb-8 mt-4 drop-shadow-lg flex items-center">
-                Editar Incidencia
-            </h3>
-            <FormIncidenciaAdmin action={(data) => editIncidencia(id, data)} incidencia={incidencia} />
+        <div className="min-h-screen flex flex-col items-center justify-start bg-cover bg-center pt-20 bg-gradient-to-br from-indigo-600 to-green-500">
+
+            <FormIncidenciaAdmin action={handleSave} incidencia={incidencia} />
         </div>
     );
 }

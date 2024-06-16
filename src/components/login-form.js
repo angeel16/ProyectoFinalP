@@ -1,21 +1,24 @@
-// src/components/login-form.js
 'use client';
 import { useState } from 'react';
-import { login } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
+import { login } from '@/lib/actions'; // Asegúrate de que esta función esté definida
 
 function LoginForm() {
     const [resultado, setResultado] = useState('');
     const [tipo, setTipo] = useState('');
+    const router = useRouter();
 
     async function wrapper(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
 
-        const message = await login(data); // Server action
+        const message = await login(data);
         if (message?.success) {
             setTipo('success');
             setResultado(message.success);
+            localStorage.setItem('token', message.token);
+            router.push('/perfil');
         } else if (message?.error) {
             setTipo('error');
             setResultado(message.error);

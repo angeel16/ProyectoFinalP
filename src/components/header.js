@@ -13,25 +13,7 @@ async function Header() {
                         <Link href="/" className="ml-12 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
                             Inicio
                         </Link>
-                        <Link href="/dashboard" className="ml-10 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
-                            Dashboard
-                        </Link>
-                        {session?.user?.role === 'ADMIN' && (
-                            <>
-                                <Link href="/admin" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
-                                    Admin Panel
-                                </Link>
-                                <Link href="/admin/users" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
-                                    Gestionar Incidencias
-                                </Link>
-                                <Link href="/admin/settings" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
-                                    Configuraciones
-                                </Link>
-                                <Link href="/" className="ml-4 text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:-translate-y-1">
-                                    Ver Reportes
-                                </Link>
-                            </>
-                        )}
+
                     </div>
                     <div className="flex items-center space-x-4">
                         {session ? (

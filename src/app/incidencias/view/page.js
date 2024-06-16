@@ -56,7 +56,7 @@ export default function DataPage() {
                 {data.map((item) => (
                   <tr key={item.id} className="hover:bg-gray-100">
                     <td className="py-2 px-4 border-b border-gray-200">{item.id}</td>
-                    <td className="py-2 px-4 border-b border-gray-200">{item.nombre}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{item.titulo}</td>
                     <td className="py-2 px-4 border-b border-gray-200 max-w-xs truncate" title={item.descripcion}>
                       {item.descripcion}
                     </td>

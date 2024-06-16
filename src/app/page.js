@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <div>
       <Head>
-        <title>Gestión de Incidencias con Next.js</title>
+        <title>Gestión de Incidencias</title>
       </Head>
       {isAdmin ? <PortadaAdmin /> : <PortadaUsuario />}
     </div>

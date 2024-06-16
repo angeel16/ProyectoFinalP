@@ -44,15 +44,44 @@ function objectToFormData(obj) {
 }
 
 // LOGIN credentials
+// export async function login(formData) {
+//     if (!(formData instanceof FormData)) {
+//         formData = objectToFormData(formData);
+//     }
+//     const email = formData.get('email');
+//     const password = formData.get('password');
+
+//     // Comprobamos si el usuario está registrado
+// }export async function login(data) {
+
+// LOGIN credentials
+
+// LOGIN credentials
+// /lib/actions.js
+
 export async function login(formData) {
-    if (!(formData instanceof FormData)) {
-        formData = objectToFormData(formData);
-    }
+
     const email = formData.get('email');
     const password = formData.get('password');
 
-    // Comprobamos si el usuario está registrado
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || 'Error al iniciar sesión');
+        }
+
+        return { success: data.message };
+    } catch (error) {
+        return { error: error.message || 'Error desconocido al iniciar sesión' };
+    }
 }
+
 
 
 // LOGIN google
@@ -74,22 +103,23 @@ export async function loginGithub() {
         throw error
     }
 }
-export async function loginGitlab() {
-    try {
-        await signIn('gitlab', { redirectTo: globalThis.callbackUrl })
-    } catch (error) {
-        console.log(error);
-        throw error
-    }
-}
-export async function loginSpotify() {
-    try {
-        await signIn('spotify', { redirectTo: globalThis.callbackUrl })
-    } catch (error) {
-        console.log(error);
-        throw error
-    }
-}
+// }
+// export async function loginGitlab() {
+//     try {
+//         await signIn('gitlab', { redirectTo: globalThis.callbackUrl })
+//     } catch (error) {
+//         console.log(error);
+//         throw error
+//     }
+// }
+// export async function loginSpotify() {
+//     try {
+//         await signIn('spotify', { redirectTo: globalThis.callbackUrl })
+//     } catch (error) {
+//         console.log(error);
+//         throw error
+//     }
+// }
 
 // LOGOUT
 export async function logout() {
@@ -119,7 +149,15 @@ export async function getIncidencias() {
         throw new Error('No se pudieron obtener las incidencias');
     }
 }
-
+export async function getUsers() {
+    try {
+        const users = await prisma.user.findMany();
+        return users;
+    } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+        throw new Error('No se pudieron obtener los usuarios');
+    }
+}
 
 // export async function getIncidencia(id) {
 //     try {
@@ -257,23 +295,28 @@ export async function editIncidencia(id, data) {
 //     return updatedIncidencia;
 // }
 
-export async function deleteIncidencia(formData) {
+// src/lib/actions.js
+
+// src/lib/actions.js
+// src/lib/actions.js
+
+// src/lib/actions.js
+// src/lib/actions.js
+
+// Eliminar una incidencia por ID
+export async function deleteIncidencia(id) {
     try {
-        const id = Number(formData.get('id'))
-
-        const incidencia = await prisma.incidencia.delete({
-            where: {
-                id: id,
-            },
-        })
-        console.log(incidencia);
-        revalidatePath('/incidencias')
+        const result = await prisma.incidencia.delete({
+            where: { id: parseInt(id, 10) },
+        });
+        return result;
     } catch (error) {
-        console.log(error);
+        console.error('Error al eliminar la incidencia:', error);
+        throw new Error('Error al eliminar la incidencia');
     }
-
-    redirect('/incidencias');
 }
+
+
 
 
 
@@ -376,16 +419,16 @@ export async function deleteIncidencia(formData) {
 //     redirect('/tecnicos');
 // }
 
-export async function getUsers() {
-    return await prisma.user.findMany({
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-        },
-    });
-}
+// export async function getUsers() {
+//     return await prisma.user.findMany({
+//         select: {
+//             id: true,
+//             name: true,
+//             email: true,
+//             role: true,
+//         },
+//     });
+// }
 
 // Actualizar rol de usuario
 export async function updateUserRole(userId, newRole) {
