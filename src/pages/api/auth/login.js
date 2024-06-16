@@ -1,33 +1,33 @@
-// /pages/api/auth/login.js
+// // src/pages/api/auth/login.js
+// import bcrypt from 'bcryptjs';
+// import jwt from 'jsonwebtoken';
+// import userModel from '@/lib/userModel'; // Asegúrate de que la ruta es correcta
 
-import bcrypt from 'bcrypt';
-import { getUserByEmail } from '@/lib/userModel'; // Ajusta según tu estructura
+// export default async function login(req, res) {
+//     if (req.method !== 'POST') {
+//         return res.status(405).json({ message: 'Method not allowed' });
+//     }
 
-export default async function loginHandler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Método no permitido' });
-    }
+//     const { email, password } = req.body;
 
-    const { email, password } = req.body;
+//     try {
+//         // Encuentra al usuario por correo electrónico
+//         const user = await userModel.findOne({ email });
+//         if (!user) {
+//             return res.status(401).json({ message: 'Invalid email or password' });
+//         }
 
-    try {
-        const user = await getUserByEmail(email);
-        if (!user) {
-            return res.status(401).json({ error: 'Usuario no registrado.' });
-        }
+//         // Verifica la contraseña
+//         const isPasswordValid = await bcrypt.compare(password, user.password);
+//         if (!isPasswordValid) {
+//             return res.status(401).json({ message: 'Invalid email or password' });
+//         }
 
-        const matchPassword = await bcrypt.compare(password, user.password);
-        if (!matchPassword) {
-            return res.status(401).json({ error: 'Credenciales incorrectas.' });
-        }
+//         // Crea un token JWT
+//         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Aquí podrías generar un token JWT o manejar la sesión de otra manera
-        // const token = generateToken(user); // Implementa tu lógica de generación de tokens
-        // res.status(200).json({ message: 'Inicio de sesión correcto', token });
-
-        res.status(200).json({ message: 'Inicio de sesión correcto' });
-    } catch (error) {
-        console.error('Error en el login:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-}
+//         return res.status(200).json({ token });
+//     } catch (error) {
+//         return res.status(500).json({ message: 'Internal server error', error: error.message });
+//     }
+// }
